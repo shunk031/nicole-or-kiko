@@ -13,21 +13,11 @@ for demo of campus festival
 pyenv virtualenv 3.6.2 nicole-or-kiko
 ```
 
-## Setup django
-
-``` shell
-django-admin startproject nicole_or_kiko
-python manage.py startapp home
-python manage.py startapp scrap_instagram
-python manage.py startapp classifier
-```
-
 ## Crawl and scrape from Instagram
 
 ``` shell
-cd nicole_or_kiko/instagram_scraper
-instagram-scraper 2525nicole2 --media-metadata
-instagram-scraper i_am_kiko --media-metadata
+python manage.py scrap_instagram 2525nicole2 --media-metadata
+python manage.py scrap_instagram i_am_kiko --media-metadata
 ```
 
 ## Make Linear SVM Classifier
@@ -36,3 +26,9 @@ instagram-scraper i_am_kiko --media-metadata
 python manage.py make_classifier
 ```
 
+## Run server
+
+``` shell
+python manage.py runserver
+# and then access http://localhost:8000/home
+```
