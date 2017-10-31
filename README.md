@@ -1,5 +1,7 @@
 # Nicole or Kiko
 
+for demo of campus festival
+
 ## Requirements
 
 - Python 3.6.2
