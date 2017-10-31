@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'classifier.apps.ClassifierConfig',
     'home.apps.HomeConfig',
+    'scrap_instagram.apps.ScrapInstagramConfig',
 ]
 
 MIDDLEWARE = [
