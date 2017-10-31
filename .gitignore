@@ -1,7 +1,11 @@
 # gitignore for nicole_or_kiko
 
+*.jpg
+*.json
+*.mp4
 *.pkl
 
+db.sqlite3
 instagram-scraper.log
 
 __pycache__/
