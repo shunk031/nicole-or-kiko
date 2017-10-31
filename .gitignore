@@ -1,0 +1,5 @@
+# gitignore for nicole_or_kiko
+
+*.pkl
+
+__pycache__/
