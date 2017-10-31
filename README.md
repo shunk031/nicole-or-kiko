@@ -13,7 +13,7 @@ for demo of campus festival
 pyenv virtualenv 3.6.2 nicole-or-kiko
 ```
 
-## Crawl and scrape from Instagram
+## Crawl and scrap from Instagram
 
 ``` shell
 python manage.py scrap_instagram 2525nicole2 --media-metadata
