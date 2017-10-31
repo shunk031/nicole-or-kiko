@@ -1,0 +1,7 @@
+<h1>Nicole or Kiko</h1>
+<p>Please input sentence.</p>
+<form action="{% url 'home:result' %}" method="post">
+  {% csrf_token %}
+  {{sentence.as_p}}
+  <input type="submit" value="Done" />
+</form>
