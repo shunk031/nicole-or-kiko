@@ -3,16 +3,67 @@
 <html lang=ja>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF8">
+    <link rel="stylesheet" type="text/css" href="{% static 'home/css/normalize.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'home/css/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'home/js/vegas/vegas.min.css' %}">
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    
+    <link href="{% static 'home/css/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'home/js/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'home/js/vegas/vegas.min.js' %}"></script>
+
+    <script>
+     $(function() {
+       $('body').vegas({ //背景画像でスライドショーしたい場所の設定
+	 slides: [
+	   { src: '{% static "home/img/2525nicole2/924002_1170569586305280_1357055683_n.jpg" %}' }, //スライドする画像を配列で設定
+	   { src: '{% static "home/img/2525nicole2/924479_910166645734936_73776305_n.jpg" %}' },
+	   { src: '{% static "home/img/2525nicole2/924897_213110819026312_696477479_n.jpg"%}' }
+	 ],
+			 delay: 10000, //スライドまでの時間ををミリ秒単位で設定
+			 timer: true, //タイマーバーの表示/非表示を切り替え
+			 overlay: '{% static "home/img/for_overlay.png" %}', //オーバーレイする画像の設定
+			 animation: 'random', //スライドのアニメーションを設定
+			 transition: 'fade', //スライド間のエフェクトを設定
+			 transitionDuration: 4000 //エフェクト時間をミリ秒単位で設定
+       });
+     });
+    </script>
+
+    <!-- <script>
+	 $(function() {
+	 $('body').vegas({ //背景画像でスライドショーしたい場所の設定
+	 slides: {{ slides | safe }},
+	 delay: 10000, //スライドまでの時間ををミリ秒単位で設定
+	 timer: true, //タイマーバーの表示/非表示を切り替え
+	 overlay: '{% static "home/img/for_overlay.png" %}', //オーバーレイする画像の設定
+	 animation: 'random', //スライドのアニメーションを設定
+	 transition: 'fade', //スライド間のエフェクトを設定
+	 transitionDuration: 4000 //エフェクト時間をミリ秒単位で設定
+	 });
+	 });
+	 </script> -->
+    
   </head>
   <body>
-    <img src="{% static 'home/img/iyatomilab.png' %}" />
+    <div align="center">
+      <img src="{% static 'home/img/iyatomilab.png' %}"/>
+    </div>
     <h1>Nicole or Kiko</h1>
-    <p>Please input sentence.</p>
-    <form action="{% url 'home:result' %}" method="post">
-      {% csrf_token %}
-      {{sentence.as_p}}
-      <input type="submit" value="Done" />
-    </form>
+    <div class="formInputSentence">
+      <form action="{% url 'home:result' %}" method="post">
+	<div class="form-group">
+	  <label for="inputSentence">Input sentence</label>
+	  <input type="text" class="form-control" id="inputSentence" name="sentence" placeholder="Input sentence">
+	  {% csrf_token %}
+	</div>
+	<button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
   </body>
-  
+
 </html>

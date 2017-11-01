@@ -2,10 +2,10 @@ import json
 import os
 import pickle
 import platform
+import random
 import string
 
 import MeCab
-import numpy as np
 
 from sklearn.externals import joblib
 from sklearn.utils import check_random_state
@@ -37,8 +37,39 @@ def index(request):
 
     sentence = InputSentence()
 
+    downloaded_dir = os.path.join(BASE_DIR,
+                                  "scrap_instagram",
+                                  "static",
+                                  "scrap_instagram",
+                                  "downloaded")
+
+    user_dir = os.listdir(downloaded_dir)
+
+    # user_images = []
+    # user_images.extend(
+    #     random.sample(list(map(lambda x: "{}/{}".format(user, x),
+    #                            list(filter(lambda x: x.endswith(".jpg"),
+    #                                        os.listdir(os.path.join(downloaded_dir, user)))))), 5) for user in user_dir)
+    user_image_list = []
+    for user in user_dir:
+        images = list(filter(lambda x: x.endswith(".jpg"),
+                             os.listdir(os.path.join(downloaded_dir, user))))
+
+        user_images = list(map(lambda x: "{}/{}".format(user, x), images))
+        user_images = random.sample(user_images, 5)
+        user_image_list.extend(user_images)
+
+    # user_image_dict_list = [{"src": '{% static "scrap_image/downloaded/{}" %}'.format(img)}
+    #                         for img in user_image_list]
+    user_image_dict_list = []
+    for img in user_image_list:
+        user_image_dict_list.append({"src": "static/scrap_image/downloaded/{}".format(img)})
+
+    logger.info(user_image_dict_list)
+
     context = {
-        "sentence": sentence
+        "sentence": sentence,
+        "slides": jsonize(user_image_dict_list)
     }
     return render(request, "home/index.html", context)
 
