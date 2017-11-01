@@ -1,6 +1,7 @@
 import os
 import json
 import pickle
+import platform
 
 import MeCab
 import numpy as np
@@ -31,11 +32,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+        if platform.system() == "Linux":
+            neologd_path = "/usr/lib/mecab/dic/mecab-ipadic-neolog"
+        elif platform.system() == "Darwin":
+            neologd_path = "/usr/local/lib/mecab/dic/mecab-ipadic-neologd"
+        else:
+            raise ValueError("Doesn't support {}".format(platform.system()))
+
+        logger.info("Load neologd dictionary from {}".format(neologd_path))
         dataset_dict = self.__load_instagram_dataset()
         label_list = list(set(dataset_dict["label"]))
         label_list.sort()
 
-        mt = MeCab.Tagger("-Owakati -d /usr/lib/mecab/dic/mecab-ipadic-neologd")
+        mt = MeCab.Tagger("-Owakati -d {}".format(neologd_path))
         X = [mt.parse(caption) for caption in dataset_dict["caption"]]
         y = [label_list.index(label) for label in dataset_dict["label"]]
 

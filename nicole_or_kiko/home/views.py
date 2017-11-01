@@ -1,6 +1,7 @@
 import json
 import os
 import pickle
+import platform
 import string
 
 import MeCab
@@ -18,11 +19,18 @@ from home.models import InputSentence
 
 logger = logging.get_logger(__name__)
 
-# load classifier
-CLF = joblib.load(os.path.join(BASE_DIR, "classifier", "classifier.pkl"))
+try:
+    # load classifier
+    CLF = joblib.load(os.path.join(BASE_DIR, "classifier", "classifier.pkl"))
 
-with open(os.path.join(BASE_DIR, "classifier", "label_list.pkl"), "rb") as rf:
-    LABEL_LIST = pickle.load(rf)
+    # load label list
+    with open(os.path.join(BASE_DIR, "classifier", "label_list.pkl"), "rb") as rf:
+        LABEL_LIST = pickle.load(rf)
+
+except FileNotFoundError as err:
+    logger.error(err)
+
+PLATFORM_SYSTEM = platform.system()
 
 
 def index(request):
@@ -109,7 +117,15 @@ def result(request):
 
 
 def wakati(sentence):
-    mt = MeCab.Tagger("-Owakati -d /usr/lib/mecab/dic/mecab-ipadic-neologd")
+
+    if PLATFORM_SYSTEM == "Linux":
+        neologd_path = "/usr/lib/mecab/dic/mecab-ipadic-neolog"
+    elif PLATFORM_SYSTEM == "Darwin":
+        neologd_path = "/usr/local/lib/mecab/dic/mecab-ipadic-neologd"
+    else:
+        raise ValueError("Doesn't support {}".format(PLATFORM_SYSTEM))
+
+    mt = MeCab.Tagger("-Owakati -d {}".format(neologd_path))
     return mt.parse(sentence)
 
 
