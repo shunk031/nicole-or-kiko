@@ -119,7 +119,7 @@ def result(request):
 def wakati(sentence):
 
     if PLATFORM_SYSTEM == "Linux":
-        neologd_path = "/usr/lib/mecab/dic/mecab-ipadic-neolog"
+        neologd_path = "/usr/lib/mecab/dic/mecab-ipadic-neologd"
     elif PLATFORM_SYSTEM == "Darwin":
         neologd_path = "/usr/local/lib/mecab/dic/mecab-ipadic-neologd"
     else:
