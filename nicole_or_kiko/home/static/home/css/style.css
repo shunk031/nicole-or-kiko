@@ -1,3 +1,7 @@
+div.formInputSentence {
+    margin: 20px 20px 20px 20px;
+}
+
 .lime.top_div {
     display: initial;
     flex-wrap: initial;
@@ -16,3 +20,4 @@
 .lime.explanation {
     width: initial;
 }
+
