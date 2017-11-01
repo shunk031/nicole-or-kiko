@@ -19,7 +19,12 @@ from nicole_or_kiko import logging
 logger = logging.get_logger(__name__)
 
 ROOT_DIR = os.path.dirname(os.path.realpath("__name__"))
-DATASET_DIR = os.path.join(ROOT_DIR, "instagram_scraper")
+DATASET_DIR = os.path.join(ROOT_DIR, "scrap_instagram", "downloaded")
+
+USER = {
+    "2525nicole2": "藤田ニコル",
+    "i_am_kiko": "水原希子",
+}
 
 
 class Command(BaseCommand):
@@ -39,7 +44,7 @@ class Command(BaseCommand):
             X, y, test_size=0.2, random_state=114514)
 
         pipe_svc = Pipeline([("vectorizer", TfidfVectorizer()),
-                             ("clf", SVC(random_state=114514))])
+                             ("clf", SVC(random_state=114514, probability=True))])
 
         param_range = [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
         param_grid = [{"clf__C": param_range, "clf__kernel": ["linear"]}]
@@ -59,11 +64,18 @@ class Command(BaseCommand):
         clf.fit(X_train, y_train)
         logger.info("Test accuracy: {:.3f}".format(clf.score(X_test, y_test)))
 
+        # モデルの学習
         clf.fit(X, y)
-        dump_path = os.path.join(ROOT_DIR, "classifier", "classifier.pkl")
-        joblib.dump(clf, dump_path)
 
-        logger.info("Dump to {}".format(dump_path))
+        dump_dir = os.path.join(ROOT_DIR, "classifier")
+        dump_path = os.path.join(dump_dir, "classifier.pkl")
+        joblib.dump(clf, dump_path)
+        logger.info("Dump model to {}".format(dump_path))
+
+        dump_path = os.path.join(dump_dir, "label_list.pkl")
+        with open(dump_path, "wb") as wf:
+            pickle.dump(label_list, wf)
+        logger.info("Dump label list to {}".format(dump_path))
 
     def __load_instagram_dataset(self):
 
@@ -93,7 +105,7 @@ class Command(BaseCommand):
                 posts = json.load(rf)
 
             captions = [post["caption"]["text"] for post in posts if post["caption"] is not None]
-            labels = [user for _ in range(len(captions))]
+            labels = [USER[user] for _ in range(len(captions))]
 
             dataset_dict["caption"].extend(captions)
             dataset_dict["label"].extend(labels)

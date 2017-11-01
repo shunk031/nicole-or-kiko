@@ -1,7 +1,18 @@
-<h1>Nicole or Kiko</h1>
-<p>Please input sentence.</p>
-<form action="{% url 'home:result' %}" method="post">
-  {% csrf_token %}
-  {{sentence.as_p}}
-  <input type="submit" value="Done" />
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang=ja>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF8">
+  </head>
+  <body>
+    <img src="{% static 'home/img/iyatomilab.png' %}" />
+    <h1>Nicole or Kiko</h1>
+    <p>Please input sentence.</p>
+    <form action="{% url 'home:result' %}" method="post">
+      {% csrf_token %}
+      {{sentence.as_p}}
+      <input type="submit" value="Done" />
+    </form>
+  </body>
+  
+</html>

@@ -1,0 +1,18 @@
+.lime.top_div {
+    display: initial;
+    flex-wrap: initial;
+}
+
+.lime.text_div {
+    max-height: 300px;
+    overflow: initial;
+    flex: initial;
+}
+
+.lime.predict_proba {
+    width: initial;
+}
+
+.lime.explanation {
+    width: initial;
+}
