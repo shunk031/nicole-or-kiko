@@ -128,7 +128,8 @@ var lime =
 	
 	
 	  Explanation.prototype.show = function show(exp, label, div) {
-	    var svg = div.append('svg').style('width', '100%');
+	      var svg = div.append('svg').style('width', '100%');
+	      // svg.style('margin', '10px 0 10px 0');
 	    var colors = ['#5F9EA0', this.colors_i(label)];
 	    var names = ['NOT ' + this.names[label], this.names[label]];
 	    if (this.names.length == 2) {
@@ -10024,7 +10025,7 @@ var lime =
 	  for (var i = 0; i < exp_array.length; ++i) {
 	    var name = names[i];
 	    var weight = weights[i];
-	    var size = xscale(Math.abs(weight));
+	    var size = xscale(Math.abs(weight)) * 10;
 	    var to_the_right = weight > 0 || !two_sided;
 	    var text = svg.append('text').attr('x', to_the_right ? x_offset + 2 : x_offset - 2).attr('y', yscale(i) + text_height).attr('text-anchor', to_the_right ? 'begin' : 'end').attr('font-size', '14').text(name);
 	    while (text.node().getBBox()['width'] + 1 > bar_width) {
@@ -10034,8 +10035,13 @@ var lime =
 	        break;
 	      }
 	    }
-	    var bar = svg.append('rect').attr('height', bar_height).attr('x', to_the_right ? x_offset : x_offset - size).attr('y', text_height + yscale(i) + space_between_bar_and_text) // + bar_height)
-	    .attr('width', size).style('fill', weight > 0 ? colors[1] : colors[0]);
+	      var bar = svg.append('rect')
+		  .attr('height', bar_height)
+		  .attr('x', to_the_right ? x_offset : x_offset - size)
+		  .attr('y', text_height + yscale(i) + space_between_bar_and_text) // + bar_height)
+		  .attr('width', 0).style('fill', weight > 0 ? colors[1] : colors[0])
+		  .transition().delay(500).attr('width', size);
+	      
 	    if (show_numbers) {
 	      var bartext = svg.append('text').attr('x', to_the_right ? x_offset + size + 1 : x_offset - size - 1).attr('text-anchor', weight > 0 || !two_sided ? 'begin' : 'end').attr('y', bar_height + yscale(i) + text_height + space_between_bar_and_text).attr('font-size', '10').text(Math.abs(weight).toFixed(2));
 	    }
@@ -27208,7 +27214,11 @@ var lime =
 	    var bar_yshift = title === '' ? 0 : 35;
 	    var n_bars = Math.min(5, data.length);
 	    this.svg_height = n_bars * (bar_height + space_between_bars) + bar_yshift;
-	    svg.style('height', this.svg_height + 'px');
+	      // svg.style('height', this.svg_height + 'px');
+	      // svg.style('width', 500 + 'px');
+	      // svg.style('margin','10px 0 10px 0');
+	      svg.style('width', '100%');
+	      
 	    var this_object = this;
 	    if (title !== '') {
 	      svg.append('text').text(title).attr('x', 20).attr('y', 20);
@@ -27234,14 +27244,19 @@ var lime =
 	          rect.attr("x", bar_x)
 		      .attr("y", bar_y(i))
 		      .attr("height", bar_height)
-		      .attr("width", 0)
 		      .style("fill", color)
+		      .attr("width", 0)
 		      .transition().delay(500).duration(1000)
 		      .attr("width", x_scale(data[i]));
-
+		      
+	          bar.append("rect")
+		      .attr("x", bar_x)
+		      .attr("y", bar_y(i))
+		      .attr("height", bar_height)
+		      .attr("width", bar_width - 1)
+		      .attr("fill-opacity", 0)
+		      .attr("stroke", "black");
 		  
-		 
-	        bar.append("rect").attr("x", bar_x).attr("y", bar_y(i)).attr("height", bar_height).attr("width", bar_width - 1).attr("fill-opacity", 0).attr("stroke", "black");
 	        var text = bar.append("text");
 	        text.classed("prob_text", true);
 	        text.attr("y", bar_y(i) + bar_height - 3).attr("fill", "black").style("font", "14px tahoma, sans-serif");
