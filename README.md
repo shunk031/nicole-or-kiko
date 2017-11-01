@@ -13,6 +13,12 @@ for demo of campus festival
 pyenv virtualenv 3.6.2 nicole-or-kiko
 ```
 
+## Install requirements
+
+```shell
+pip install -r python_requirements.txt
+```
+
 ## Crawl and scrap from Instagram
 
 ``` shell
