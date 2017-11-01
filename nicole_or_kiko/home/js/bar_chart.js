@@ -85,7 +85,6 @@ class Barchart {
                 .attr('width', size)
                 .style('fill', weight > 0 ? colors[1] : colors[0]);
 
-	    console.info("情報を出すぜ");
 	    if (show_numbers) {
 		let bartext = svg.append('text')
                     .attr('x', to_the_right ? x_offset + size + 1 : x_offset - size - 1)
