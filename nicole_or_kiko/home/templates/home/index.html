@@ -6,12 +6,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'home/css/normalize.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'home/css/style.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'home/js/vegas/vegas.min.css' %}">
-    
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    
+
     <link href="{% static 'home/css/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
     <script src="{% static 'home/js/bootstrap/bootstrap.min.js' %}"></script>
     <script src="{% static 'home/js/vegas/vegas.min.js' %}"></script>
@@ -19,14 +19,10 @@
     <script>
      $(function() {
        $('body').vegas({ //背景画像でスライドショーしたい場所の設定
-	 slides: [
-	   { src: '{% static "home/img/2525nicole2/924002_1170569586305280_1357055683_n.jpg" %}' }, //スライドする画像を配列で設定
-	   { src: '{% static "home/img/2525nicole2/924479_910166645734936_73776305_n.jpg" %}' },
-	   { src: '{% static "home/img/2525nicole2/924897_213110819026312_696477479_n.jpg"%}' }
-	 ],
+	 slides: {{ slides | safe }},
 			 delay: 10000, //スライドまでの時間ををミリ秒単位で設定
 			 timer: true, //タイマーバーの表示/非表示を切り替え
-			 overlay: '{% static "home/img/for_overlay.png" %}', //オーバーレイする画像の設定
+			 overlay: '{% static "home/img/12.png" %}', //オーバーレイする画像の設定
 			 animation: 'random', //スライドのアニメーションを設定
 			 transition: 'fade', //スライド間のエフェクトを設定
 			 transitionDuration: 4000 //エフェクト時間をミリ秒単位で設定
@@ -34,36 +30,48 @@
      });
     </script>
 
-    <!-- <script>
-	 $(function() {
-	 $('body').vegas({ //背景画像でスライドショーしたい場所の設定
-	 slides: {{ slides | safe }},
-	 delay: 10000, //スライドまでの時間ををミリ秒単位で設定
-	 timer: true, //タイマーバーの表示/非表示を切り替え
-	 overlay: '{% static "home/img/for_overlay.png" %}', //オーバーレイする画像の設定
-	 animation: 'random', //スライドのアニメーションを設定
-	 transition: 'fade', //スライド間のエフェクトを設定
-	 transitionDuration: 4000 //エフェクト時間をミリ秒単位で設定
-	 });
-	 });
-	 </script> -->
-    
   </head>
   <body>
-    <div align="center">
-      <img src="{% static 'home/img/iyatomilab.png' %}"/>
-    </div>
-    <h1>Nicole or Kiko</h1>
-    <div class="formInputSentence">
-      <form action="{% url 'home:result' %}" method="post">
-	<div class="form-group">
-	  <label for="inputSentence">Input sentence</label>
-	  <input type="text" class="form-control" id="inputSentence" name="sentence" placeholder="Input sentence">
-	  {% csrf_token %}
-	</div>
-	<button type="submit" class="btn btn-default">Submit</button>
-      </form>
-    </div>
-  </body>
+    <div id="wrapper">
 
+      <div align="center" id="title">
+	<img src="{% static 'home/img/iyatomilab.png' %}" class="titleImage"/>
+      </div>
+
+      <div id="contents">
+	<h1>Nicole or Kiko</h1>
+	<div class="formInputSentence">
+	  <form action="{% url 'home:result' %}" method="post">
+	    <div class="form-group">
+	      <label for="inputSentence">Input sentence</label>
+	      <input type="text" class="form-control" id="inputSentence" name="sentence" placeholder="Input sentence">
+	      {% csrf_token %}
+	    </div>
+	    <button type="submit" class="btn btn-default">Submit</button>
+	  </form>
+	</div>
+	<div>
+	  <h2>For example</h2>
+	  <ul class="list-group">
+	    <li class="list-group-item"><a href="https://www.instagram.com/takizawakarenofficial">@takizawakarenofficial</a> まさか、忘れてる方はいないと思いますが...今日も堂々とみなさんにご褒美です✨ 夏のしつこい足の引っ張り方が気になりますが、それでも立ち向かいたいだろう秋にひと手間かけてあげるのが私たちなのでしょうか⁉️</li>
+	    <li class="list-group-item"><a href="https://www.instagram.com/kanna399">@kanna399</a> 砂で作ったタージ・マハール見に行きましょう♪ナオミは怪しい人しか引っ掻かないんですが…↑このセリフは訛って言えなかったんです。笑怪しい人しか、の部分です毎日毎日訛ってると言われます皆さん8chでリスザルが見れますよぉぉおお</li>
+	    <li class="list-group-item"><a href="https://www.instagram.com/darenogare.akemi">@darenogare.akemi</a> 今日着てたアウターはGRLだよ 私も昨日届いて早速使ってます 暖かいし可愛い❤️もう少しで発売だからチェックしてね</li>
+	    <li class="list-group-item"><a href="https://www.instagram.com/toritori0123">@toritori0123</a> ViVi9月号☺️ #Amazon にて予約スタート❤ イメージモデルをさせていただいている@majesticlegon_official のお洋服…</li>
+	    <li class="list-group-item"><a href="https://lineblog.me/uesaka_sumire/">@uesaka_sumire</a> 本日は京都で「京アニ＆Ｄｏファン感謝イベント」中二病でも恋がしたい！トークステージに参加してきました(*´∀｀*)お足元の悪い中、お越しくださった方々ありがとうございましたっ！そして久々の京都〜！</li>
+	  </ul>
+	  
+	</div>
+      </div>
+
+      <div id="indexFooter" class="clearfix">
+	<div class="frawp">
+	  <div class="copyRight">
+	    Copyright &copy; Intelligent information processing laboratory IYATOMI Lab. All rights reserved.
+	  </div>
+	</div>
+      </div>
+      
+    </div>
+    
+  </body>
 </html>

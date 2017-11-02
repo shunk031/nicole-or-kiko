@@ -1,23 +1,84 @@
-div.formInputSentence {
+body {
+    background-image: url("/static/home/img/background_instagram.jpg");
+    background-position:center top;
+    background-repeat:no-repeat;
+    
+    /* -moz-background-size:cover; */
+    /* background-size:cover; */
+    
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+}
+
+.formInputSentence {
     margin: 20px 20px 20px 20px;
 }
 
-.lime.top_div {
-    display: initial;
-    flex-wrap: initial;
+#title {
+    background-color: rgba(255,255,255,0.5);
+    padding: 10px 0;
 }
+
+#contents {
+    background-color: rgba(255,255,255,0.5);
+    
+    margin: 30px 50px;
+    padding: 30px 50px;
+}
+
+#indexFooter {
+    
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    
+    width: 100%;
+    
+    padding: 20px 0;
+    clear: both;
+    background-color: rgba(255,255,255,0.5);
+}
+
+#resultFooter {
+    
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    
+    width: 100%;
+    
+    padding: 20px 0;
+    
+    /* clear: both; */
+    
+    background-color: rgba(255,255,255,0.5);
+}
+
+.frawp {
+    /* width: 100%; */
+    padding: 0 10px;
+}
+
+.copyRight {
+    float: right;
+}
+
+/* .lime.top_div { */
+/*     display: initial; */
+/*     flex-wrap: initial; */
+/* } */
 
 .lime.text_div {
-    max-height: 300px;
+    /* max-height: 300px; */
     overflow: initial;
-    flex: initial;
+    /* flex: initial; */
 }
 
-.lime.predict_proba {
-    width: initial;
-}
+/* .lime.predict_proba { */
+/*     width: initial; */
+/* } */
 
-.lime.explanation {
-    width: initial;
-}
+/* .lime.explanation { */
+/*     width: initial; */
+/* } */
 

@@ -45,11 +45,6 @@ def index(request):
 
     user_dir = os.listdir(downloaded_dir)
 
-    # user_images = []
-    # user_images.extend(
-    #     random.sample(list(map(lambda x: "{}/{}".format(user, x),
-    #                            list(filter(lambda x: x.endswith(".jpg"),
-    #                                        os.listdir(os.path.join(downloaded_dir, user)))))), 5) for user in user_dir)
     user_image_list = []
     for user in user_dir:
         images = list(filter(lambda x: x.endswith(".jpg"),
@@ -63,7 +58,7 @@ def index(request):
     #                         for img in user_image_list]
     user_image_dict_list = []
     for img in user_image_list:
-        user_image_dict_list.append({"src": "static/scrap_image/downloaded/{}".format(img)})
+        user_image_dict_list.append({"src": "/static/home/img/scrap_instagram/downloaded/{}".format(img)})
 
     logger.info(user_image_dict_list)
 

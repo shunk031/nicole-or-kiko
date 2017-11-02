@@ -3,25 +3,44 @@
 <html lang=ja>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF8">
-    <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+
     <script src="{% static 'home/js/bundle.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'home/css/normalize.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'home/css/style.css' %}" />
   </head>
+
   <body>
-    <img src="{% static 'home/img/iyatomilab.png' %}" />
-    <h1>Results</h1>
-    <h2>{{ sentence }}</h2>
-    <p>You look similar to this instagramer; {{ pred }}</p>
-    <p>{{ pred_proba }}</p>
-    {{ top_div | safe }}
-    <script type="text/javascript">
-     var top_div = d3.select('#top_div{{ random_id }}').classed('lime top_div', true);
-     {{ predict_proba_js | safe }}
-     {{ predict_value_js | safe }}
-     {{ exp_js | safe }}
-     {{ raw_js | safe }}
-    </script>
-    <a class="returnTop" href="{% url 'home:index' %}">Return to home</a>
+    <div id="wrapper" class="resultWrapper">
+
+      <div align="center" id="title">
+	<img src="{% static 'home/img/iyatomilab.png' %}" />
+      </div>
+
+      <div id="contents">
+	<h1>Results</h1>
+	<h2>{{ sentence }}</h2>
+	<p>You look similar to this instagramer; {{ pred }}</p>
+	<p>{{ pred_proba }}</p>
+	{{ top_div | safe }}
+	<script type="text/javascript">
+	 var top_div = d3.select('#top_div{{ random_id }}').classed('lime top_div', true);
+	 {{ predict_proba_js | safe }}
+	 {{ predict_value_js | safe }}
+	 {{ exp_js | safe }}
+	 {{ raw_js | safe }}
+	</script>
+	<a class="returnTop" href="{% url 'home:index' %}">Return to home</a>
+      </div>
+
+
+
+      <div id="resultFooter" class="clearfix">
+	<div class="frawp">
+	  <div class="copyRight">
+	    Copyright &copy; Intelligent information processing laboratory IYATOMI Lab. All rights reserved.
+	  </div>
+	</div>
+      </div>
+    </div>
   </body>
 </html>

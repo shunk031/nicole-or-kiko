@@ -10,8 +10,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.grid_search import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
 from sklearn.pipeline import Pipeline
 from sklearn.externals import joblib
+from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import FunctionTransformer
 
 from django.core.management.base import BaseCommand
 
@@ -20,7 +23,11 @@ from nicole_or_kiko import logging
 logger = logging.get_logger(__name__)
 
 ROOT_DIR = os.path.dirname(os.path.realpath("__name__"))
-DATASET_DIR = os.path.join(ROOT_DIR, "scrap_instagram", "downloaded")
+DATASET_DIR = os.path.join(ROOT_DIR,
+                           "scrap_instagram",
+                           "static",
+                           "scrap_instagram",
+                           "downloaded")
 
 USER = {
     "2525nicole2": "藤田ニコル",
@@ -33,7 +40,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         if platform.system() == "Linux":
-            neologd_path = "/usr/lib/mecab/dic/mecab-ipadic-neolog"
+            neologd_path = "/usr/lib/mecab/dic/mecab-ipadic-neologd"
         elif platform.system() == "Darwin":
             neologd_path = "/usr/local/lib/mecab/dic/mecab-ipadic-neologd"
         else:
@@ -52,14 +59,17 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2, random_state=114514)
 
-        pipe_svc = Pipeline([("vectorizer", TfidfVectorizer()),
+        pipe_clf = Pipeline([("vectorizer", TfidfVectorizer()),
                              ("clf", SVC(random_state=114514, probability=True))])
+        # pipe_clf = Pipeline([("vectorizer", TfidfVectorizer()),
+        #                      ("transformer", FunctionTransformer(lambda x: x.todense(), accept_sparse=True)),
+        #                      ("clf", GaussianNB())])
 
         param_range = [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
         param_grid = [{"clf__C": param_range, "clf__kernel": ["linear"]}]
 
         logger.info("[GridSearch] Start grid search")
-        gs = GridSearchCV(estimator=pipe_svc,
+        gs = GridSearchCV(estimator=pipe_clf,
                           param_grid=param_grid,
                           scoring="accuracy",
                           cv=10,
@@ -72,6 +82,9 @@ class Command(BaseCommand):
         clf = gs.best_estimator_
         clf.fit(X_train, y_train)
         logger.info("Test accuracy: {:.3f}".format(clf.score(X_test, y_test)))
+
+        # logger.info("Cross val score: {}".format(cross_val_score(pipe_clf, X, y, cv=10).mean()))
+        # clf = pipe_clf
 
         # モデルの学習
         clf.fit(X, y)

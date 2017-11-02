@@ -27205,9 +27205,9 @@ var lime =
 	        names = _map_classes2[0],
 	        data = _map_classes2[1];
 	
-	    var bar_x = width - 125;
+	    var bar_x = width - 200;
 	    var class_names_width = bar_x;
-	    var bar_width = width - bar_x - 32;
+	    var bar_width = width - bar_x - 107;
 	    var x_scale = _d3.default.scale.linear().range([0, bar_width]);
 	    var bar_height = 17;
 	    var space_between_bars = 5;
