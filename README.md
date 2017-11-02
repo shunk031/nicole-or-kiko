@@ -19,6 +19,16 @@ pyenv virtualenv 3.6.2 nicole-or-kiko
 pip install -r python_requirements.txt
 ```
 
+- Install newest lime
+  - Install unicode compatible version "lime" from source
+  
+``` shell
+pyenv shell nicole-or-kiko # if you are in working directory
+git clone https://github.com/marcotcr/lime.git
+cd lime
+python setup.py install
+```
+
 ## Crawl and scrap from Instagram
 
 ``` shell
