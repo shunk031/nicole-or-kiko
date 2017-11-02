@@ -9,3 +9,6 @@ db.sqlite3
 instagram-scraper.log
 
 __pycache__/
+
+# except backgroun image
+!background_instagram.jpg
