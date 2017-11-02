@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
 
         parser.add_argument('username', help='Instagram user(s) to scrape', nargs='*')
-        parser.add_argument('--destination', '-d', default='./scrap_instagram/static/downloaded', help='Download destination')
+        parser.add_argument('--destination', '-d', default='./scrap_instagram/static/scrap_instagram/downloaded', help='Download destination')
         parser.add_argument('--login-user', '--login_user', '-u', default=None, help='Instagram login user')
         parser.add_argument('--login-pass', '--login_pass', '-p', default=None, help='Instagram login password')
         parser.add_argument('--login-only', '--login_only', '-l', default=False, action='store_true', help='Disable anonymous fallback if login fails')
