@@ -10,3 +10,6 @@ instagram-scraper.log
 README.html
 
 __pycache__/
+
+# except backgroun image
+!background_instagram.jpg
