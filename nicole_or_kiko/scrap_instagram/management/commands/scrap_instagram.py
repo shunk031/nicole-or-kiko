@@ -2,6 +2,9 @@ import re
 
 from instagram_scraper.app import InstagramScraper
 from django.core.management.base import BaseCommand
+from nicole_or_kiko import logging
+
+logger = logging.get_logger(__name__)
 
 
 class Command(BaseCommand):
@@ -31,35 +34,39 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        if (kwargs["login_user"] and kwargs["login_pass"] is None) or (kwargs["login_user"] is None and kwargs["login_pass"]):
-            raise ValueError('Must provide login user AND password')
+        try:
+            if (kwargs["login_user"] and kwargs["login_pass"] is None) or (kwargs["login_user"] is None and kwargs["login_pass"]):
+                raise ValueError('Must provide login user AND password')
 
-        if not kwargs["username"] and kwargs["filename"] is None:
-            raise ValueError('Must provide username(s) OR a file containing a list of username(s)')
-        elif kwargs["username"] and kwargs["filename"]:
-            raise ValueError('Must provide only one of the following: username(s) OR a filename containing username(s)')
+            if not kwargs["username"] and kwargs["filename"] is None:
+                raise ValueError('Must provide username(s) OR a file containing a list of username(s)')
+            elif kwargs["username"] and kwargs["filename"]:
+                raise ValueError('Must provide only one of the following: username(s) OR a filename containing username(s)')
 
-        if kwargs["tag"] and kwargs["location"]:
-            raise ValueError('Must provide only one of the following: hashtag OR location')
+            if kwargs["tag"] and kwargs["location"]:
+                raise ValueError('Must provide only one of the following: hashtag OR location')
 
-        if kwargs["tag"] and kwargs["filter"]:
-            raise ValueError('Filters apply to user posts')
+            if kwargs["tag"] and kwargs["filter"]:
+                raise ValueError('Filters apply to user posts')
 
-        if kwargs["filename"]:
-            kwargs["usernames"] = InstagramScraper.parse_file_usernames(kwargs["filename"])
-        else:
-            kwargs["usernames"] = InstagramScraper.parse_delimited_str(','.join(kwargs["username"]))
+            if kwargs["filename"]:
+                kwargs["usernames"] = InstagramScraper.parse_file_usernames(kwargs["filename"])
+            else:
+                kwargs["usernames"] = InstagramScraper.parse_delimited_str(','.join(kwargs["username"]))
 
-        if kwargs["media_types"] and len(kwargs["media_types"]) == 1 and re.compile(r'[,;\s]+').findall(kwargs["media_types"][0]):
-            kwargs["media_types"] = InstagramScraper.parse_delimited_str(kwargs["media_types"][0])
+            if kwargs["media_types"] and len(kwargs["media_types"]) == 1 and re.compile(r'[,;\s]+').findall(kwargs["media_types"][0]):
+                kwargs["media_types"] = InstagramScraper.parse_delimited_str(kwargs["media_types"][0])
 
-        scraper = InstagramScraper(**kwargs)
+            scraper = InstagramScraper(**kwargs)
 
-        if kwargs["tag"]:
-            scraper.scrape_hashtag()
-        elif kwargs["location"]:
-            scraper.scrape_location()
-        elif kwargs["search_location"]:
-            scraper.search_locations()
-        else:
-            scraper.scrape()
+            if kwargs["tag"]:
+                scraper.scrape_hashtag()
+            elif kwargs["location"]:
+                scraper.scrape_location()
+            elif kwargs["search_location"]:
+                scraper.search_locations()
+            else:
+                scraper.scrape()
+
+        except Exception as err:
+            logger.error(err)
