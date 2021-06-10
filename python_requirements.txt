@@ -5,7 +5,7 @@ click==6.7
 colorlog==3.1.0
 cycler==0.10.0
 decorator==4.1.2
-Django==1.11.6
+Django==2.2.24
 docopt==0.6.2
 epc==0.0.5
 flake8==3.5.0
